@@ -2985,8 +2985,14 @@ async function renderStudentsTable(){
   if(!tbody)return;
   if(!list.length){if(emptyEl)emptyEl.style.display="block";tbody.innerHTML="";return;}
   if(emptyEl)emptyEl.style.display="none";
+  function getYear(studentId){
+    const admissionYear = 2000 + parseInt(studentId.substring(0,2));
+    return Math.min(new Date().getFullYear() - admissionYear + 1, 4);
+}
   var h="";
   list.forEach(function(s,i){
+  const cleanBranch = (s.branch || "JUIT")
+    .replace(/\s+\d+(st|nd|rd|th)\s+Year/i,"");
     var rc=LIVE_REGS.filter(function(r){return r.student_id===s.student_id;}).length;
     var wins=(s.wins||[]).length;var pts=rc*5+wins*10+rc*2;
     var col=avc(s.name||"");var av=ini(s.name||"?");var isBroken=s.streak_broken;
@@ -2994,7 +3000,9 @@ async function renderStudentsTable(){
     h+="<div style='color:var(--t3);font-size:.78rem'>"+(i+1)+"</div>";
     h+="<div style='display:flex;align-items:center;gap:.5rem'><div style='width:30px;height:30px;border-radius:8px;background:"+col+"18;color:"+col+";display:flex;align-items:center;justify-content:center;font-family:Space Grotesk,sans-serif;font-weight:700;font-size:.68rem;flex-shrink:0'>"+av+"</div>";
     h+="<div><div style='font-weight:600;font-size:.86rem'>"+(s.name||"-")+"</div><div style='font-size:.7rem;color:var(--t2)'>"+(s.student_id||"-")+"</div></div></div>";
-    h+="<div style='font-size:.78rem;color:var(--t2)'>"+(s.branch||"-")+"</div>";
+    h+="<div style='font-size:.78rem;color:var(--t2)'>"+
+    cleanBranch + " " + getYear(s.student_id) + " Year"+
+    "</div>";
     h+="<div style='font-family:Space Grotesk,sans-serif;font-weight:700;color:var(--a)'>"+rc+"</div>";
     h+="<div style='font-family:Space Grotesk,sans-serif;font-weight:700;color:var(--p)'>"+pts+"</div>";
     h+="<div>"+(isBroken?"<span style='background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.22);color:#ef4444;border-radius:7px;padding:.2rem .55rem;font-size:.72rem;font-weight:600'>&#128683; Broken</span>":rc>=5?"<span style='background:rgba(255,107,53,.09);border:1px solid rgba(255,107,53,.22);color:#ff6b35;border-radius:7px;padding:.2rem .55rem;font-size:.72rem;font-weight:600'>&#128293; "+rc+" events</span>":"<span style='color:var(--t3);font-size:.78rem'>"+rc+" event"+(rc!==1?"s":"")+"</span>")+"</div>";
