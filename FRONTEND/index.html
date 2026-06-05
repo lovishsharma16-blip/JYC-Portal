@@ -1794,6 +1794,11 @@ async function doSignup(){
   var name=document.getElementById("su-name").value.trim();
   var sid=document.getElementById("su-sid").value.trim();
   var branch=document.getElementById("su-branch").value.trim();
+branch = branch.replace(/\s+\d+(st|nd|rd|th)\s+Year/i,"");
+  function getYear(studentId){
+    const admissionYear = 2000 + parseInt(studentId.substring(0,2));
+    return Math.min(new Date().getFullYear() - admissionYear + 1, 4);
+}
   var pass=document.getElementById("su-pass").value.trim();
   var phone=document.getElementById("su-phone").value.trim();
   var email=sidToEmail(sid);
@@ -2114,7 +2119,20 @@ async function renderProfile(){
   var av=document.getElementById("prof-av");
   av.textContent=ic;av.style.background="linear-gradient(135deg,"+cl+","+cl+"99)";av.style.boxShadow="0 7px 22px "+cl+"44";
   document.getElementById("prof-name").textContent=u.name;
-  document.getElementById("prof-meta").textContent=(u.branch||"JUIT")+" | "+u.sid;
+function getYear(studentId){
+
+    const admissionYear = 2000 + parseInt(studentId.substring(0,2));
+
+    return Math.min(new Date().getFullYear() - admissionYear + 1, 4);
+
+}
+
+const cleanBranch = (u.branch || "JUIT").replace(/\s+\d+(st|nd|rd|th)\s+Year/i,"");
+
+document.getElementById("prof-meta").textContent=
+
+    cleanBranch+" - Year "+getYear(u.sid)+" | "+u.sid;
+  
   if(u.streak_broken){
     document.getElementById("prof-streak").textContent="Streak Broken — Points Reset";
     document.getElementById("prof-streak").style.cssText="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.25);";
