@@ -1226,7 +1226,7 @@ nav.sc{background:rgba(7,8,15,.95);backdrop-filter:blur(20px);border-bottom:1px 
       <input type="hidden" id="ev-col" value="#ff6b35">
     </div>
     <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.18);border-radius:9px;padding:.65rem .9rem;font-size:.78rem;color:#93c5fd;margin-bottom:1rem">
-      &#128203; Events are saved to Supabase and appear live on the website immediately after saving.
+      &#128203; Events are saved to the database and reflected on the website after saving.
     </div>
     <div id="ev-modal-err" style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18);border-radius:9px;padding:.6rem .9rem;font-size:.82rem;color:var(--rd);margin-bottom:.8rem;display:none"></div>
     <div style="display:flex;gap:.7rem">
@@ -1453,13 +1453,13 @@ var MOCK_REGS = [
   {id:20,name:"Tanvi Joshi",branch:"CSE 2nd",studentId:"2023CS044",event:"Photography",date:"Mar 11, 2026",fee:80,streak:1,status:"confirmed"}
 ];
 
-/* ============================================================
-   MONGODB BACKEND — All data stored in MongoDB Atlas via
-   Express API running on localhost:3000
-   ============================================================ */
-
-var API = "https://jyc-portal-production.up.railway.app/api";
-
+/*
+============================================================
+MONGODB BACKEND – All data stored in MongoDB Atlas via
+Express API deployed on Render
+============================================================
+*/
+var API = "https://jyc-portal.onrender.com/api";
 var DB = {
   _id: function(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); },
 
